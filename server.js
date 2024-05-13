@@ -32,7 +32,7 @@ app.use(express.urlencoded({extended:true}))
 
 const corsOptions = {
   origin: function (origin, callback) {
-    const allowedOrigins = [ "http://localhost:8000","http://localhost:3000", "https://shopitoapp.vercel.app"]
+    const allowedOrigins = [ "http://localhost:8000","http://localhost:3000", "https://shopitapp.vercel.app"]
     if (!origin || allowedOrigins.includes(origin)) {
       callback(null, true);
     } else {
@@ -75,7 +75,9 @@ app.use("/api/order", orderRoute)
 
 
 
-
+app.get('/',(req,res)=>{
+  res.send(' Home Page Loading... ')
+})
 
 
 
