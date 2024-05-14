@@ -32,7 +32,11 @@ app.use(express.urlencoded({extended:true}))
 
 const corsOptions = {
   origin: function (origin, callback) {
-    const allowedOrigins = [ "http://localhost:8000","http://localhost:3000", "https://shopitapp.vercel.app"]
+    const allowedOrigins = [ "http://localhost:8000",
+    "http://localhost:3000", "https://shopitapp.vercel.app",
+   "https://api-shopito-cgp4.onrender.com"
+
+  ]
     if (!origin || allowedOrigins.includes(origin)) {
       callback(null, true);
     } else {
