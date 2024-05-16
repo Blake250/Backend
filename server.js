@@ -5,7 +5,6 @@ const mongoose = require("mongoose")
 const ProductData = require("./models/user.js")
 const cookieParser = require("cookie-parser")
 const env = require("dotenv").config()
-
 const errorHandler = require("./middleware/errorMiddleWare.js")
 const  userRouter = require("./routes/userRoute.js")
 const  productRoute = require("./routes/productRoute.js")
@@ -32,15 +31,18 @@ app.use(express.urlencoded({extended:true}))
 
 const corsOptions = {
   origin: function (origin, callback) {
-    const allowedOrigins = [ "http://localhost:8000",
-    "http://localhost:3000", "https://shopitapp.vercel.app",
-   "https://api-shopito-cgp4.onrender.com"
-
+    const allowedOrigins = [ 
+      "http://localhost:8000",
+    "http://localhost:3000",
+    
+   "https://api-shopito-cgp4.onrender.com",
+   "https://shopito-app-zs1v.onrender.com"
+  
   ]
     if (!origin || allowedOrigins.includes(origin)) {
       callback(null, true);
     } else {
-      callback(new Error("Not allowed by CORS"));
+      callback(new Error('Not allow by CORS'));
     }
   },
   credentials: true,
