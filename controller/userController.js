@@ -2,7 +2,6 @@ const asyncHandler = require("express-async-handler")
 const jwt = require("jsonwebtoken")
 const bcrypt = require("bcryptjs")
 
-//const { default : User } = require("../models/userAuth")
 const User = require("../models/userAuth.js")
 const env = require("dotenv").config()
 // create a jwt for a user
@@ -43,8 +42,8 @@ const registerUser = asyncHandler( async (req, res)=>{
       path: "/home",
       httpOnly: true,
       expires: new Date(Date.now() + 1000 * 86400 ),
-    //  secure:true,
-      //sameSite: none
+  secure:true,
+      sameSite: 'none'
       
     })
     // send user data   
@@ -87,8 +86,8 @@ const LoginUser = asyncHandler((async(req, res)=>{
       path:"/home",
       httpOnly:true,
       expires: new Date(Date.now()  + 1000 * 86400),
-     // secure:true,
-     // sameSite : none
+  secure:true,
+      sameSite : 'none'
 
     })
     res.status(201).json(newUser)
@@ -108,8 +107,8 @@ const logOutUser = asyncHandler(async(req, res)=>{
     path:"/home",
    httpOnly:true,
     expires: new Date(0),
-       // secure:true,
-     // sameSite : none
+ secure:true,
+      sameSite : 'none'
 
   })
   res.status(200).json({message: "Successfully loggedOut"})
