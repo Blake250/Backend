@@ -35,8 +35,8 @@ const corsOptions = {
       "http://localhost:8000",
     "http://localhost:3000",
     
-   "https://api-shopito-cgp4.onrender.com",
-   "https://shopito-app-zs1v.onrender.com"
+   "https://www.shoppitapp.online/",
+   "https://www.app.shoppitapp.online/"
   
   ]
     if (!origin || allowedOrigins.includes(origin)) {
