@@ -35,6 +35,8 @@ const app =express()
     
    "https://shoppitapp.online/",
     "https://app.shoppitapp.online/",
+      "https://shopito-app-zs1v.onrender.com/",
+      "https://api-shopito-cgp4.onrender.com/"
 
 
   
