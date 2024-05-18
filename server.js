@@ -33,8 +33,8 @@ const app =express()
      const allowedOrigins = [ 
    
     
-   "https://www.shoppitapp.online/",
-    "https://www.app.shoppitapp.online/",
+   "https://shoppitapp.online/",
+    "https://app.shoppitapp.online/",
 
 
   
