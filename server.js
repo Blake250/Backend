@@ -35,6 +35,7 @@ const app =express()
     
 //   "https://www.shoppitapp.online/",
 //    "https://www.app.shoppitapp.online/",
+"*"
 
   
 //   ]
