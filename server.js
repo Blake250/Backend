@@ -47,8 +47,8 @@ const corsOptions = {
     }
   },
   credentials: true,
-  allowedHeaders: ["Content-Type", "Cookie", "Authorization"],
-  allowedMethods: ['GET', 'POST', 'PATCH', 'DELETE', 'OPTIONS', 'X-Requested-With']
+  allowedHeaders: ["Content-Type", "Cookie", "Authorization", 'X-Requested-With'],
+  allowedMethods: ['GET', 'POST', 'PATCH', 'DELETE', 'OPTIONS', ]
 };
 
 
