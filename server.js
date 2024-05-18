@@ -34,10 +34,10 @@ const corsOptions = {
     //"http://localhost:8000",
    //   "http://localhost:3000",
     
- "https://www.shoppitapp.online/",
-   "https://www.app.shoppitapp.online/",
-   "https://app.shoppitapp.online/",
-   "https://shoppitapp.online/"
+ "https://www.shoppitapp.online",
+   "https://www.app.shoppitapp.online",
+   "https://app.shoppitapp.online",
+   "https://shoppitapp.online"
   
   ]
     if (!origin || allowedOrigins.includes(origin)) {
