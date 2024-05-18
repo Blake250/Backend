@@ -24,7 +24,7 @@ const app =express()
 //app.use(express.static("public"));
 
 //app.use(express.static('public')) 
-app.use(express.urlencoded({extended:true}))
+
 
 
 
@@ -45,11 +45,13 @@ const corsOptions = {
     }
   },
   credentials: true,
-  allowedHeaders: ["Content-Type", "Cookie", "Authorization"],
+  allowedHeaders: ["Content-Type",  "Authorization"],
   allowedMethods: ['GET', 'POST', 'PATCH', 'DELETE', 'OPTIONS', 'X-Requested-With']
 };
+app.options('*', cors(corsOptions));
 
 app.use(cors(corsOptions));
+app.use(express.urlencoded({extended:true}))
 app.use(cookieParser())
 app.use("/api/transaction", transactionRoute)
 
