@@ -45,10 +45,10 @@ const corsOptions = {
     }
   },
   credentials: true,
-  allowedHeaders: ["Content-Type",  "Authorization"],
+  allowedHeaders: ["Content-Type", 'Cookie', "Authorization"],
   allowedMethods: ['GET', 'POST', 'PATCH', 'DELETE', 'OPTIONS', 'X-Requested-With']
 };
-app.options('*', cors(corsOptions));
+
 
 app.use(cors(corsOptions));
 app.use(express.urlencoded({extended:true}))
