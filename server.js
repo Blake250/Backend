@@ -46,7 +46,7 @@ const app =express()
      }
    },
    credentials: true,
-   allowedHeaders: ["Content-Type", "Cookie", "Authorization", 'X-Requested-With'Accept],
+   allowedHeaders: ["Content-Type", "Cookie", "Authorization", 'X-Requested-With'],
    allowedMethods: ['GET', 'POST', 'PATCH', 'DELETE', 'OPTIONS', ],
   
  };
