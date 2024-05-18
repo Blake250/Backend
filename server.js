@@ -31,10 +31,11 @@ app.use(express.urlencoded({extended:true}))
 const corsOptions = {
   origin: function (origin, callback) {
     const allowedOrigins = [ 
- 
+      "http://localhost:8000",
+      "http://localhost:3000",
     
-   "https://www.shoppitapp.online",
-   "https://www.app.shoppitapp.online"
+ "https://www.shoppitapp.online/",
+   "https://www.app.shoppitapp.online/"
   
   ]
     if (!origin || allowedOrigins.includes(origin)) {
