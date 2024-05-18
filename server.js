@@ -31,11 +31,13 @@ const app =express()
 const corsOptions = {
   origin: function (origin, callback) {
     const allowedOrigins = [ 
-      "http://localhost:8000",
-      "http://localhost:3000",
+    //"http://localhost:8000",
+   //   "http://localhost:3000",
     
  "https://www.shoppitapp.online/",
-   "https://www.app.shoppitapp.online/"
+   "https://www.app.shoppitapp.online/",
+   "https://app.shoppitapp.online/",
+   "https://shoppitapp.online/"
   
   ]
     if (!origin || allowedOrigins.includes(origin)) {
@@ -45,12 +47,21 @@ const corsOptions = {
     }
   },
   credentials: true,
-  allowedHeaders: ["Content-Type", 'Cookie', "Authorization"],
+  allowedHeaders: ["Content-Type", "Cookie", "Authorization"],
   allowedMethods: ['GET', 'POST', 'PATCH', 'DELETE', 'OPTIONS', 'X-Requested-With']
 };
 
 
 app.use(cors(corsOptions));
+
+
+
+
+
+
+
+
+
 app.use(express.urlencoded({extended:true}))
 app.use(cookieParser())
 app.use("/api/transaction", transactionRoute)
