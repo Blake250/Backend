@@ -31,16 +31,13 @@ const app =express()
 const corsOptions = {
   origin: function (origin, callback) {
     const allowedOrigins = [ 
-    "http://localhost:8000",
-   "http://localhost:3000",
-   
-   "https://api-shopito-cgp4.onrender.com",
-   "https://shopito-app-zs1v.onrender.com"
+    //"http://localhost:8000",
+   //   "http://localhost:3000",
     
-//  "https://www.shoppitapp.online",
-//    "https://www.app.shoppitapp.online",
-//    "https://app.shoppitapp.online/",
-//    "https://shoppitapp.online/"
+ //"https://www.shoppitapp.online",
+  // "https://www.app.shoppitapp.online",
+   "https://app.shoppitapp.online/",
+   "https://shoppitapp.online/"
   
   ]
     if (!origin || allowedOrigins.includes(origin)) {
@@ -51,9 +48,7 @@ const corsOptions = {
   },
   credentials: true,
   allowedHeaders: ["Content-Type", "Cookie", "Authorization", 'X-Requested-With'],
-  allowedMethods: ['GET', 'POST', 'PATCH', 'DELETE', 'OPTIONS', ],
-
-
+  allowedMethods: ['GET', 'POST', 'PATCH', 'DELETE', 'OPTIONS', ]
 };
 
 
