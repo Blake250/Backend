@@ -4,7 +4,7 @@ const cors = require("cors")
 const mongoose = require("mongoose")
 const ProductData = require("./models/user.js")
 const cookieParser = require("cookie-parser")
-const dotenv = require("dotenv").config()
+const dotenv = require("dotenv")
 const errorHandler = require("./middleware/errorMiddleWare.js")
 const  userRouter = require("./routes/userRoute.js")
 const  productRoute = require("./routes/productRoute.js")
@@ -16,7 +16,7 @@ const transactionRoute =  require("./routes/transactionRoute.js")
 
 //const ProductData = require("./models")
 
-//dotenv.config();
+dotenv.config();
 const app =express()
 
 

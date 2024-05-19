@@ -3,7 +3,10 @@ const jwt = require("jsonwebtoken")
 const bcrypt = require("bcryptjs")
 
 const User = require("../models/userAuth.js")
-const env = require("dotenv").config()
+const dotenv = require("dotenv")
+
+
+dotenv.config();
 // create a jwt for a user
 const generateToken = ((id)=>{
   return jwt.sign({id : id}, process.env.JWT_SECRET, {expiresIn : "1d"})
@@ -39,7 +42,7 @@ const registerUser = asyncHandler( async (req, res)=>{
     const {_id, name, email,role} = user
 
     res.cookie("token", token, {
-      path: "/",
+      path: "/home",
       httpOnly: true,
       expires: new Date(Date.now() + 1000 * 86400 ),
      secure:true,
@@ -83,7 +86,7 @@ const LoginUser = asyncHandler((async(req, res)=>{
   if(user && passwordIsCorrect){
     const newUser = await User.findOne({email : email}).select("-password")
     res.cookie(  "token", token, {
-      path:"/",
+      path:"/home",
       httpOnly:true,
       expires: new Date(Date.now()  + 1000 * 86400),
   secure:true,
@@ -104,7 +107,7 @@ const LoginUser = asyncHandler((async(req, res)=>{
 // LogOut User
 const logOutUser = asyncHandler(async(req, res)=>{
   res.cookie("token", "", {
-    path:"/",
+    path:"/home",
    httpOnly:true,
     expires: new Date(0),
  secure:true,
