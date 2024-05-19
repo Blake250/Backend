@@ -4,7 +4,7 @@ const cors = require("cors")
 const mongoose = require("mongoose")
 const ProductData = require("./models/user.js")
 const cookieParser = require("cookie-parser")
-const dotenv = require("dotenv")
+const dotenv = require("dotenv").config()
 const errorHandler = require("./middleware/errorMiddleWare.js")
 const  userRouter = require("./routes/userRoute.js")
 const  productRoute = require("./routes/productRoute.js")
@@ -16,7 +16,7 @@ const transactionRoute =  require("./routes/transactionRoute.js")
 
 //const ProductData = require("./models")
 
-dotenv.config();
+//dotenv.config();
 const app =express()
 
 
@@ -31,13 +31,16 @@ const app =express()
 const corsOptions = {
   origin: function (origin, callback) {
     const allowedOrigins = [ 
-    //"http://localhost:8000",
-   //   "http://localhost:3000",
+    "http://localhost:8000",
+   "http://localhost:3000",
+   
+   "https://api-shopito-cgp4.onrender.com",
+   "https://shopito-app-zs1v.onrender.com"
     
- //"https://www.shoppitapp.online",
-  // "https://www.app.shoppitapp.online",
-   "https://app.shoppitapp.online/",
-   "https://shoppitapp.online/"
+//  "https://www.shoppitapp.online",
+//    "https://www.app.shoppitapp.online",
+//    "https://app.shoppitapp.online/",
+//    "https://shoppitapp.online/"
   
   ]
     if (!origin || allowedOrigins.includes(origin)) {
@@ -48,11 +51,15 @@ const corsOptions = {
   },
   credentials: true,
   allowedHeaders: ["Content-Type", "Cookie", "Authorization", 'X-Requested-With'],
-  allowedMethods: ['GET', 'POST', 'PATCH', 'DELETE', 'OPTIONS', ]
+  allowedMethods: ['GET', 'POST', 'PATCH', 'DELETE', 'OPTIONS', ],
+
+
 };
 
 
 app.use(cors(corsOptions));
+
+
 
 
 
@@ -79,6 +86,8 @@ db.on('error', (err) => { // Corrected this line
 db.once("open", (()=>{
     console.log('Connected to the database!');
 }))
+
+
 
 
 
