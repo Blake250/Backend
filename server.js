@@ -32,9 +32,8 @@ const app =express()
    origin: function (origin, callback) {
      const allowedOrigins = [ 
    
-    
-     "https://shoppitapp.online",
-     "https://app.shoppitapp.online",
+    "https://api-shopito-cgp4.onrender.com",
+      "https://shopito-app-zs1v.onrender.com"
    
 
   
