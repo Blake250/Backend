@@ -90,9 +90,9 @@ const LoginUser = asyncHandler((async(req, res)=>{
       path:"/",
       httpOnly:true,
       expires: new Date(Date.now()  + 1000 * 86400),
- // secure:true,
+ secure:true,
 
-    //  sameSite : 'none'
+      sameSite : 'none'
 
     })
     res.status(201).json(newUser)
@@ -114,7 +114,7 @@ const logOutUser = asyncHandler(async(req, res)=>{
     expires: new Date(0),
  //secure:true,
 
-     // sameSite : 'none'
+    // sameSite : 'none'
 
   })
   res.status(200).json({message: "Successfully loggedOut"})
