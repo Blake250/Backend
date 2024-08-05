@@ -4,7 +4,6 @@ const cors = require("cors");
 const mongoose = require("mongoose");
 const cookieParser = require("cookie-parser");
 const dotenv = require("dotenv");
-const path = require("path");
 const errorHandler = require("./middleware/errorMiddleWare.js");
 const userRouter = require("./routes/userRoute.js");
 const productRoute = require("./routes/productRoute.js");
@@ -17,14 +16,12 @@ const transactionRoute = require("./routes/transactionRoute.js");
 dotenv.config();
 const app = express();
 
-// Serve static files from the React app
-app.use(express.static(path.join(__dirname, 'client/build')));
 
 const corsOptions = {
   origin: function (origin, callback) {
     const allowedOrigins = [
-      "https://shopito-app-zs1v.onrender.com",
-      "https://api-shopito-cgp4.onrender.com"
+      "http://localhost:3000",
+      "http://localhost:5000"
     ];
     if (!origin || allowedOrigins.includes(origin)) {
       callback(null, true);
@@ -38,15 +35,30 @@ const corsOptions = {
 };
 
 app.use(cors(corsOptions));
-app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
+
+
+
+
+app.use("/api/transaction", transactionRoute);
 app.use(express.json());
 
-mongoose.connect(process.env.MONGO_URL, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true
-}).then(() => console.log('Connected to the database!'))
+
+
+
+
+mongoose.connect(
+process.env.MONGODB_URL 
+  // {
+  //   useNewUrlParser: true,
+  //   useUnifiedTopology: true
+  // }
+).then(() => console.log('Connected to the database!'))
   .catch(err => console.error('Connection error:', err));
+
+
+ 
+
 
 app.use("/api/user", userRouter);
 app.use("/api/products", productRoute);
@@ -54,158 +66,14 @@ app.use("/api/category", categoryRoute);
 app.use("/api/brand", brandRoute);
 app.use("/api/coupon", couponRoute);
 app.use("/api/order", orderRoute);
-app.use("/api/transaction", transactionRoute);
 
-// The "catchall" handler: for any request that doesn't match any of the above, send back React's index.html file.
-app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, 'client/build/index.html'));
-});
 
 app.use(errorHandler);
 
-const port = process.env.PORT || 8000;
-
+const port = process.env.PORT || 8000; 
 app.listen(port, () => {
   console.log(`Server listening on ${port}`);
 });
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-/*const  express = require("express")
-const cors = require("cors")
-const mongoose = require("mongoose")
-const ProductData = require("./models/user.js")
-const cookieParser = require("cookie-parser")
-const dotenv = require("dotenv")
-const errorHandler = require("./middleware/errorMiddleWare.js")
-const  userRouter = require("./routes/userRoute.js")
-const  productRoute = require("./routes/productRoute.js")
-const  categoryRoute = require("./routes/categoryRoute.js")
-const brandRoute = require("./routes/brandRoutes.js")
-const couponRoute =  require("./routes/couponRoute.js")
-const orderRoute =  require("./routes/orderRoute.js")
-const transactionRoute =  require("./routes/transactionRoute.js")
-
-//const ProductData = require("./models")
-
-dotenv.config();
-const app =express()
-
-
-
-app.use(express.static("public"));
-
-//app.use(express.static('public')) 
-
-
-
-
-const corsOptions = {
-  origin: function (origin, callback) {
-    const allowedOrigins = [ 
- 
-
-    "https://shopito-app-zs1v.onrender.com",
-    "https://api-shopito-cgp4.onrender.com"
-  
-  ]
-    if (!origin || allowedOrigins.includes(origin)) {
-      callback(null, true);
-    } else {
-      callback(new Error('Not allow by CORS'));
-    }
-  },
-  credentials: true,
-  allowedHeaders: ["Content-Type", "Cookie", "Authorization", 'X-Requested-With'],
-  allowedMethods: ['GET', 'POST', 'PATCH', 'DELETE', 'OPTIONS', ]
-};
-
-
-app.use(cors(corsOptions));
-
-
-
-
-
-
-
-
-
-
-
-app.use(express.urlencoded({extended:true}))
-app.use(cookieParser())
-app.use("/api/transaction", transactionRoute)
-
-app.use(express.json())
-
-
-
-mongoose.connect(process.env.MONGO_URL)
-const db = mongoose.connection
-
-db.on('error', (err) => { // Corrected this line
-    console.error("connection error:", err);
-  });
-db.once("open", (()=>{
-    console.log('Connected to the database!');
-}))
-
-
-
-
-
-
-app.use("/api/user", userRouter)
-app.use("/api/products", productRoute)
-app.use("/api/category", categoryRoute)
-app.use("/api/brand", brandRoute)
-app.use("/api/coupon", couponRoute)
-app.use("/api/order", orderRoute)
-
-
-
-
-app.get('/',(req,res)=>{
-  res.send(' Home Page Loading... ')
-})
-
-
-
-app.use(errorHandler)
-
-const port = process.env.PORT || 8000 
-
-app.listen(port, console.log(`Server listening on ${port}`))*/
-
-
-
-
-
-
-
-
 
 
 

@@ -49,9 +49,9 @@ const createProduct = asyncHandler( async(req, res)=>{
 const getProducts = asyncHandler(async(req,res)=>{
  const fetchData =  await Product.find().sort("-createdAt")
  if(fetchData ){
-    res.json(fetchData)
+    return res.json(fetchData)
  }
- res.status(401)
+ res.status(500)
  throw new Error(`An error occur while fetching the data`)
 })
 

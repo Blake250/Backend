@@ -72,6 +72,8 @@ res.status(200).json({
 })
 
 
+
+
 // getting  the user's transaction
 
 const getTransactions = asyncHandler(async(req, res)=>{
@@ -99,13 +101,22 @@ res.status(200).json(transactions)
 
 
 
+
+
 // deposit stripFund
 const depositFundStripe = asyncHandler(async(req, res)=>{
   try{
   const {amount} = req.body
+
+  if(!amount || isNaN(amount) || amount <= 0){
+    res.status(404).json({error : 'invalid amount'})
+    return
+  }
+
+  console.log(`Amount received: ${amount}`);
  
   //get the user
-  const user = await User?.findById(req.user._id)
+  const user = await User.findById(req.user._id)
 
   //if the  User does not  exist create one
   if(!user.stripeCustomerId){
@@ -119,8 +130,9 @@ const depositFundStripe = asyncHandler(async(req, res)=>{
   // create Stripe session
   const session = await stripe.checkout.sessions.create({
    
-    payment_method_types:['card'],
+ 
     mode:'payment',
+    payment_method_types:['card'],
   
   /*line_items: req.body.items.map(item =>{
    const storeItem = Order.get(item.id)
@@ -146,7 +158,8 @@ const depositFundStripe = asyncHandler(async(req, res)=>{
                     name:'E-shop commerce website',
                     description:`make a payment of $${amount} to your E-shop commerce website`
                 },
-               unit_amount :amount * 100
+               //unit_amount :amount * 100,
+              unit_amount: Math.round(amount * 100) 
             },
             quantity: 1
             
@@ -154,15 +167,19 @@ const depositFundStripe = asyncHandler(async(req, res)=>{
     ],
 
     customer : user.stripeCustomerId,
-    success_url: `${process.env.FRONTEND_URL}/wallet?payment=successful&amount=${amount} `,
+    success_url: `${process.env.FRONTEND_URL}/wallet?payment=successful&amount=${Math.round(amount) } `,
     cancel_url: `${process.env.FRONTEND_URL}/wallet?payment=failed`,
   })
-  return res.send({url: session.url})
-}catch(err){
+  //return res.json({url: session.url})
+  return res.json(session)
+}
+
+catch(err){
   res.status(500).json({message: err.message})
   
 }
-})
+}
+)
 
 
 
@@ -172,9 +189,17 @@ const depositFundStripe = asyncHandler(async(req, res)=>{
 
 
    //deposit funds vai stripe or flutter wave
-   const depositFunds = (async(customer, data, source, description)=>{
+  const depositFunds = async(customer, data,  description, source)=>{
+        //const amountInDollar = source === 'stripe' ? (data.amount_subtotal) /100 : data.amount_subtotal
+
+        // const amountInDollar = (amount_subtotal, source) => {
+        //   const amountInDollars = source === 'stripe' ? data.amount_subtotal / 100 : data.amount_subtotal;
+        //   return amountInDollars;
+        // };
+
     await Transaction.create({
-        amount: source === 'stripe' ? data.amount_subtotal / 100 : data.amount_subtotal,
+       amount: source === 'stripe' ? data?.amount_subtotal / 100 : data.amount_subtotal,
+   //   amount : amountInDollar,
         sender:'self',
         receiver: customer.email,
         description,
@@ -186,18 +211,30 @@ const depositFundStripe = asyncHandler(async(req, res)=>{
       {email : customer.email},
 
       {$inc :{
-       balance : source === 'stripe' ? data.amount_subtotal / 100 : data.amount_subtotal
+      balance : source === 'stripe' ? data?.amount_subtotal / 100 : data.amount_subtotal
+      //   balance : amountInDollar
       }}
     )
 
     
-   })
+   }
+
+
+
+
+
+
+
+
+
 
 
 // create a webhook
 const endpointSecret = process.env.STRIPE_ENDPOINT_SECRET
+
+
 const webhook = asyncHandler(async(req,res)=>{
-    const sig = request.headers['stripe-signature'];
+    const sig = req.headers['stripe-signature'];
 
 let data;
 let event;
@@ -208,7 +245,7 @@ try {
     console.log('webhook verified')
   } catch (err) {
     console.log(`webhook error: ${err}`)
-    response.status(400).send(`Webhook Error: ${err.message}`);
+    res.status(400).send(`Webhook Error: ${err.message}`);
     return;
   }
 
@@ -216,7 +253,10 @@ data = event.data.object
 eventType = event.type
 
 if(eventType ===  'checkout.session.completed' ){
-    stripe.customers.retrieve(data.message).then(async(customer)=>{
+    stripe.customers.retrieve(data.customer).then(async(customer)=>{
+
+      console.log(`Retrieved customer: ${customer.email}`);
+      console.log(`Session data: ${JSON.stringify(data)}`);
        
         // Deposit Funds into the customer account
         const description = 'stripe deposit'
@@ -227,6 +267,11 @@ if(eventType ===  'checkout.session.completed' ){
 
 res.send().end()
 })
+
+
+
+
+
 
 
 
@@ -282,5 +327,5 @@ module.exports = {
     depositFundStripe,
     webhook,
     depositWithFlw,
-   // transactions
+  // transactions
 }
