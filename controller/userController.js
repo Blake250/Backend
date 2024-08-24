@@ -113,8 +113,7 @@ const logOutUser = asyncHandler(async(req, res)=>{
    httpOnly:true,
     expires: new Date(0),
  secure:true,
-
-     sameSite : 'none'
+ sameSite : 'none'
 
   })
   res.status(200).json({message: "Successfully loggedOut"})
@@ -190,7 +189,7 @@ res.status(200).json(updatedPhoto)
 // save cart
 const saveCart = asyncHandler(async(req, res)=>{
   const {cartItems} = req.body
-  const user = await  User.findById(req.user?._id)
+  const user = await  User.findById(req.user._id)
   if(user){
      user.cartItems = cartItems
     await user.save()
@@ -202,16 +201,21 @@ const saveCart = asyncHandler(async(req, res)=>{
   }
 })
 
+
 //Get cart
 const getCart = asyncHandler(async(req, res)=>{
   const user =  await User.findById(req.user._id)
   if(user){
-    res.status(200).json(user?.cartItems)
+   return res.status(200).json(user.cartItems)
+ //console.log(`${result} as be received successfully`)
+    
   }
   else{
     res.status(404)
     throw new Error('user not found')
   }
+
+  //console.log(`${user} was being received successfully`)
 })
 
 
