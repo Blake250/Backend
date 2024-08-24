@@ -26,7 +26,7 @@ const userSchema = new mongoose.Schema({
     role:{
         type:String,
        required:[true],
-        default:"admin",
+        default:"customer",
         enum:["customer", "admin"]
     },
     photo:{
@@ -45,6 +45,11 @@ const userSchema = new mongoose.Schema({
         default:0,
         
     },
+
+    wishlist:[{
+        type:mongoose.Types.ObjectId,
+        ref : 'product'
+    }],
  
         address: {
             type: String,
