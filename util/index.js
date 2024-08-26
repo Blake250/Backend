@@ -1,4 +1,4 @@
-const Product = require("../models/productModel")
+const Product = require("../models/productModel").default
 
 const stripe =  require("stripe")(process.env.STRIPE_SECRET_KEY)
 

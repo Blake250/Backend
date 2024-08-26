@@ -1,6 +1,6 @@
 const asyncHandler = require("express-async-handler")
 
-const Product = require("../models/productModel");
+const Product = require("../models/productModel")
 
 
 
@@ -47,9 +47,9 @@ const createProduct = asyncHandler( async(req, res)=>{
 
 //get a Product
 const getProducts = asyncHandler(async(req,res)=>{
- const fetchData =  await Product.find().sort("-createdAt")
- if(fetchData ){
-    return res.json(fetchData)
+ const products =  await Product.find({}).sort("-createdAt")
+ if(products ){
+    return res.json(products)
  }
  res.status(500)
  throw new Error(`An error occur while fetching the data`)
@@ -63,11 +63,13 @@ const getSingleProduct = asyncHandler(async(req, res) => {
     try {
         const product = await Product?.findById(productId);
         if (!product) {
-            res.status(404).json({ error: "Product not found" });
-            return;
+            res.status(404)           
+            throw new Error(`Product not found`)
+            
         }
       return   res.json(product);
-    } catch (error) {
+    }
+     catch (error) {
         res.status(500).json({ error: "Internal server error" });
     }
 });

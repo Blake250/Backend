@@ -45,9 +45,9 @@ const registerUser = asyncHandler( async (req, res)=>{
       path: "/",
       httpOnly: true,
       expires: new Date(Date.now() + 1000 * 86400 ),
-     secure:true,
+    // secure:true,
   
-     sameSite: 'none'
+   //  sameSite: 'none'
       
     })
     // send user data   
@@ -219,7 +219,7 @@ const getCart = asyncHandler(async(req, res)=>{
 })
 
 
-const addToWishlist = asyncHandler(async()=>{
+const addToWishlist = asyncHandler(async(req, res)=>{
   const {productID} = req.body
   await User.findOneAndUpdate(
     {email:req.user.email},
@@ -237,8 +237,8 @@ res.status(200).json({message:'product was added to wishlist'})
 
 })
 
-const getWishlist = asyncHandler(async()=>{
-  const list = await User.findOneAndUpdate({
+const getWishlist = asyncHandler(async(req, res)=>{
+  const list = await User.findOne({
     email:req.user.email,
 
   }).select('wishlist')
@@ -248,12 +248,13 @@ const getWishlist = asyncHandler(async()=>{
   
 })
 
-const removeFromWishlist = asyncHandler(async()=>{
+const removeFromWishlist = asyncHandler(async(req, res)=>{
   const {productID} = req.params
   await User.findOneAndUpdate({
     email:req.user.email
   },
 {$pull: {wishlist : productID  }}
+//{ $pull: { wishlist: mongoose.Types.ObjectId(productID) } }
 )
 
 res.status(200).json({message:'product removed from wishlist'})

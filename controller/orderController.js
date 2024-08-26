@@ -1,14 +1,17 @@
-const asyncHandler = require("express-async-handler")
-const Order = require("../models/orderModel");
 
+const asyncHandler = require("express-async-handler")
 const stripe =  require('stripe')(process.env.STRIPE_SECRET_KEY)
-const Product  = require('../models/productModel');
+const Product  = require('../models/productModel').default;
 const sendEmail = require("../util/sendEmail");
 const { orderSuccessEmail } = require("../emailTemplates/orderTemplates");
 const { updateProductQuantity } = require("../util");
 const uuid = require('uuid');
 //const { response, request } = require("express");
-const axios = require('axios')
+const axios = require('axios');
+const User = require("../models/userAuth");
+const Transaction = require("../models/transactionModal");
+const Order = require("../models/orderModel");
+const mongoose = require('mongoose');
 
 
 const createOrder = asyncHandler(async(req, res)=>{
@@ -46,12 +49,12 @@ coupon
 })
 // updating the productQuantity field
  await updateProductQuantity(cartItems)
-
+ //console.log(`here is the ${updateProductQuantity} info`)
 // send order Email to the user
 const subject = 'new Order placed successfully - e-Shop'
-const send_to = req.user?.email
-const template = orderSuccessEmail(req.user?.name, cartItems)
-reply_to = 'no_reply@gmail.com'
+const send_to = req.user.email
+const template = orderSuccessEmail(req.user.name, cartItems)
+const reply_to = 'no_reply@gmail.com'
 
 await sendEmail(subject, send_to, template, reply_to)
 
@@ -82,7 +85,8 @@ const getOrder = asyncHandler(async(req,res)=>{
 //getSingleOrder
 
 const singleOrder = asyncHandler(async(req, res)=>{
-    const orderId = req.params.id.trim()
+   const orderId = req.params.id.trim()
+//const orderId = new mongoose.Types.ObjectId(req.params.id.trim()); 
 
   const orders = await Order.findById(orderId)
   
@@ -131,13 +135,40 @@ const updateOrderStatus = asyncHandler(async(req, res)=>{
 //orderAmount = calculateTotalPrice(products, items)
 
 
+// const calculateTotalPrice = (products, cartItems) => {
+//   let totalPrice = 0;
+
+//    // Ensure products is an array
+//    if (!Array.isArray(products)) {
+//     throw new Error('Products is not an array or is undefined');
+//   }
+//   cartItems?.forEach((cartItem) => {
+//     const product = products && products?.find((product) =>{
+//     return  product?._id.toString() === cartItem?._id
+//     });
+
+//     if (product) {
+//       const quantity = cartItem?.cartQuantity;
+//       const price = parseFloat(product?.price);
+//       totalPrice += price * quantity;
+//     }
+//   });
+
+//   return totalPrice ;
+//   // return totalPrice  * 100;
+// };
+
+
 const calculateTotalPrice = (products, cartItems) => {
   let totalPrice = 0;
 
+  // Ensure products is an array
+  if (!Array.isArray(products)) {
+    throw new Error('Products is not an array or is undefined');
+  }
+
   cartItems?.forEach((cartItem) => {
-    const product = products.find((product) =>{
-    return  product?._id.toString() === cartItem?._id
-    });
+    const product = products && products?.length > 1 && products.find((product) => product._id.toString() === cartItem._id);
 
     if (product) {
       const quantity = cartItem?.cartQuantity;
@@ -146,7 +177,8 @@ const calculateTotalPrice = (products, cartItems) => {
     }
   });
 
-  return totalPrice * 100;
+  return totalPrice ;
+  //return totalPrice * 100;
 };
 
 
@@ -156,7 +188,7 @@ const payWithStrip = asyncHandler(async (req, res) => {
   const { items, shipping, description, coupon,  } = req.body;
 let orderAmount;
   //try {
-    const products = await Product.find();
+    const products = await Product.find({});
 
     orderAmount = calculateTotalPrice(products, items);
 
@@ -223,7 +255,7 @@ await axios.get( url,{
     'Content-Type' : 'application/json',
     Accept: 'application/json',
 
-   Authorization: `Bearer ${process.env.FLW_SECRET_KEY}`,
+   Authorization: Bearer `${process.env.FLW_SECRET_KEY}`
   }
 })
 
@@ -236,12 +268,299 @@ const successURL = `${process.env.FRONTEND_URL}/checkout-wave?payment=successful
 const failureURL = `${process.env.FRONTEND_URL}/checkout-wave?payment=failed`
 
 if(req.query.status === 'successful'){
-  res.redirect(successURL)
+ return  res.redirect(successURL)
 }
 else{
-  res.redirect(failureURL)
+ return  res.redirect(failureURL)
 }
 })
+
+
+
+
+// const payWithWallet = asyncHandler(async(req, res)=>{
+//   const {items, cartItems, shippingAddresses, coupon} = req.body
+ 
+//    const userID = req.user._id
+
+//    if (!mongoose.isValidObjectId(userID)) {
+//     return res.status(400).json({ err: 'Invalid user ID format.' });
+//   }
+//   const user = await User.findById( {userID : userID} )
+
+//   if(!user){
+//     res.status(400)
+//     throw new Error( `no user was found` )
+//   }
+
+//  console.log(`the ${user} is a man`)
+
+
+  
+
+//   // if (!shippingAddresses || typeof shippingAddresses !== 'object' || !shippingAddresses.line1 || !shippingAddresses.city || !shippingAddresses.country) {
+//   //   return res.status(400).json({ err: 'Please provide a valid shipping address' });
+//   // }
+
+ 
+//  if (!shippingAddresses || !Object.keys(shippingAddresses).length   ){
+//   return  res.status(400).json({err: 'Please provide a valid shipping address'})
+//   }
+ 
+
+
+//   const product = await Product.find({})
+//   const today = new Date()
+// console.log(`the is the ${product}  information  details`)
+ 
+//    let orderAmount;
+//    orderAmount =  calculateTotalPrice(product, items)
+//    console.log(`the is the ${orderAmount}  details`)
+
+
+// if(coupon !== null  && coupon?.name !== "nil")
+// //if(coupon && typeof coupon.discount === 'number')
+// {
+//     let totalAfterDiscount = orderAmount - (orderAmount * coupon?.discount) / 100
+
+
+//     if(!isNaN(totalAfterDiscount)){
+//     //  console.log(`the is the ${orderAmount}  payment`)
+  
+//  //return   
+//  orderAmount = totalAfterDiscount
+//     }
+//     console.log(`the is the ${orderAmount}  payment`)
+
+//   }
+ 
+
+   
+// // if(user.balance < orderAmount)
+
+// if (Number(user.balance) < Number(orderAmount)){
+//   //return res.status(400).json({message  :'insufficient balance'})
+//   res.status(400)
+//   throw new Error('insufficient balance...')
+//  }
+
+//  const userEmailData = user
+//  if(!mongoose.isValidObjectId(userEmailData)){
+//   res.status(400)
+//   throw new Error(`no user email was found`)
+//  }
+
+// const userEmail = await user.findOne({userEmailData:userEmailData})
+
+
+
+//    // create a transaction
+//    const newTransaction = await Transaction.create({
+//     amount:orderAmount,
+//   //  sender:user.email
+//     sender:userEmail,
+//     receiver: 'E-shop store',
+//     description:'payments for products',
+//     status:'success'
+
+
+//    })
+
+
+
+//   //  if(!newTransaction){
+//   //   console.log(`the transaction was unsuccessful...  `)
+//   //  return  res.status(400).json({error: 'an problem occur in displaying the new balance'})
+//   // }
+//   // else{
+//   //   res.status(400)
+//   //   throw new error('no new transaction is made or  available')
+//   // } 
+  
+
+
+
+// //decrease the sender's balance
+//    const newBalance = await User.findOneAndUpdate({
+//     email: userEmail
+//    },
+
+//    {$inc : {balance : -orderAmount}}
+  
+//   )
+//   // if(!newBalance){
+//   //   console.log(`there is no available balance `)
+//   //  return  res.status(400).json({error: 'a problem occur in displaying the new balance'})
+//   // } 
+  
+//   //  else{
+//   //   //console.log(`Here is a balance of ${newBalance} created `)
+//   //   res.status(400)
+//   //   throw new error('no new balance is available')
+//   // }
+
+   
+
+//   const newOrder = await Order.create({
+//    //user :new mongoose.Types.ObjectId(user._id) ?  mongoose.Types.ObjectId(user._id) : user._id,
+//    user:user._id,
+//     orderDate: today.toDateString(),
+//     orderTime:today.toLocaleTimeString(),
+//     orderAmount:orderAmount,
+//     orderStatus : 'Order Placed...',
+//     cartItems,
+//     shippingAddresses,
+//     paymentMethod : 'E-Shop wallet',
+//     coupon
+
+
+// })
+// // if(!newOrder){
+  
+
+// //   console.log(`This ${newOrder} has been  created`)
+  
+// //  return  res.status(400).json({err: 'no new order was created'})
+  
+// // }
+
+// // else{
+// // console.log(`This ${newOrder} has been  created`)
+// // }
+
+
+// // update product quantity
+// await updateProductQuantity(cartItems)
+
+
+// // send order Email to the user
+// const subject = 'new Order placed successfully to  e-Shop'
+// const send_to = user.email
+// const template = orderSuccessEmail(user.name, cartItems)
+// const reply_to = 'no_reply@gmail.com'
+
+
+
+// await sendEmail(subject, send_to, template, reply_to )
+
+
+// if(newTransaction && newBalance && newOrder){
+//  return res.status(200).json({
+//     message:'payment successful',
+//     url: `${process.env.FRONTEND_URL}/checkout-success`
+   
+//   })
+// }
+// else{
+//   throw new Error('something went wrong ..please try again later')
+// }
+
+// })
+
+
+
+
+
+
+
+
+const payWithWallet = asyncHandler(async (req, res) => {
+  const { items, cartItems, shippingAddresses, coupon } = req.body;
+  const userID = req.user._id;
+
+  // Check if userID is a valid ObjectId
+  if (!mongoose.isValidObjectId(userID)) {
+    return res.status(400).json({ err: 'Invalid user ID format.' });
+  }
+
+  // Find user by ID
+  const user = await User.findById(userID);
+  
+  if (!user) {
+    res.status(404);
+    throw new Error('No user was found');
+  }
+
+  console.log(`The user ${user.email} is a man`);
+
+  if (!shippingAddresses || !Object.keys(shippingAddresses).length) {
+    return res.status(400).json({ err: 'Please provide a valid shipping address' });
+  }
+
+  const products = await Product.find({});
+  const today = new Date();
+  console.log(`Product information details: ${products}`);
+
+  let orderAmount = calculateTotalPrice(products, items);
+  console.log(`Order amount details: ${orderAmount}`);
+
+  if (coupon !== null && coupon?.name !== 'nil') {
+    let totalAfterDiscount = orderAmount - (orderAmount * coupon?.discount) / 100;
+
+    if (!isNaN(totalAfterDiscount)) {
+      orderAmount = totalAfterDiscount;
+    }
+    console.log(`Payment after discount: ${orderAmount}`);
+  }
+
+  if (Number(user.balance) < Number(orderAmount)) {
+    res.status(400);
+    throw new Error('Insufficient balance...');
+  }
+
+  // Create a transaction
+  const newTransaction = await Transaction.create({
+    amount: orderAmount,
+    sender: user.email,
+    receiver: 'E-shop store',
+    description: 'Payments for products',
+    status: 'success',
+  });
+
+  // Decrease the sender's balance
+  const newBalance = await User.findOneAndUpdate(
+    { email: user.email },
+    { $inc: { balance: -orderAmount } },
+    { new: true } // To return the updated document
+  );
+
+  // Create a new order
+  const newOrder = await Order.create({
+    user: user._id,
+    orderDate: today.toDateString(),
+    orderTime: today.toLocaleTimeString(),
+    orderAmount: orderAmount,
+    orderStatus: 'Order Placed...',
+    cartItems,
+    shippingAddresses,
+    paymentMethod: 'E-Shop wallet',
+    coupon,
+  });
+
+  // Update product quantity
+  await updateProductQuantity(cartItems);
+
+  // Send order email to the user
+  const subject = 'New Order placed successfully to E-Shop';
+  const send_to = user.email;
+  const template = orderSuccessEmail(user.name, cartItems);
+  const reply_to = 'no_reply@gmail.com';
+
+  await sendEmail(subject, send_to, template, reply_to);
+
+  if (newTransaction && newBalance && newOrder) {
+    return res.status(200).json({
+      message: 'Payment successful',
+      url: `${process.env.FRONTEND_URL}/checkout-success`,
+    });
+  } else {
+    throw new Error('Something went wrong ..please try again later');
+  }
+});
+
+
+
+
 
 
 
@@ -254,7 +573,28 @@ else{
     updateOrderStatus,
    payWithStrip,
    verifyFLWPayment,
+   payWithWallet
 
   //calculateTotalPrice,
 
       }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
