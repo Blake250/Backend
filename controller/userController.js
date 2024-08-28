@@ -26,7 +26,7 @@ const registerUser = asyncHandler( async (req, res)=>{
     throw new Error("Password must be at least 6 characters")
   }
   // A check for where is user is register and intend to register again
-  const userExists = await User.findOne({email:email})
+  const userExists = await User.findOne({email:req.user.email})
   if(userExists){
     throw new Error("user already exist")
   }
@@ -91,8 +91,7 @@ const LoginUser = asyncHandler((async(req, res)=>{
       httpOnly:true,
       expires: new Date(Date.now()  + 1000 * 86400),
  secure:true,
-
-     sameSite : 'none'
+ sameSite : 'none'
 
     })
     res.status(201).json(newUser)

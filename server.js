@@ -36,6 +36,7 @@ const corsOptions = {
     if (!origin || allowedOrigins.includes(origin)) {
       callback(null, true);
     } else {
+      console.log("Blocked origin:", origin);
       callback(new Error('Not allowed by CORS'));
     }
   },
@@ -50,14 +51,16 @@ app.use(cors(corsOptions));
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 
-app.use("/api/transaction", transactionRoute);
-app.use(express.json());
 
 mongoose.connect(process.env.MONGODB_URL, {
   // useNewUrlParser: true,
   // useUnifiedTopology: true
 }).then(() => console.log('Connected to the database!'))
   .catch(err => console.error('Connection error:', err));
+
+  
+app.use("/api/transaction", transactionRoute);
+app.use(express.json());
 
 app.use("/api/user", userRouter);
 app.use("/api/products", productRoute);

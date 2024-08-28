@@ -41,9 +41,9 @@ router.get("/getCart", protect, getCart)
 router.post("/addToWishlist", protect, addToWishlist)
 
 router.get("/getWishlist", protect, getWishlist)
-
-router.put("/wishlist/:productID", protect, removeFromWishlist)
 router.patch("/saveCart", protect, saveCart)
+router.put("/wishlist/:productID", protect, removeFromWishlist)
+
 
 
 module.exports = router
