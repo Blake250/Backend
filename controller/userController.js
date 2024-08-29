@@ -315,7 +315,7 @@ const registerUser = asyncHandler(async (req, res) => {
   }
 
   // Check if user already exists
-  const userExists = await User.findOne({ email: req.user.email });
+  const userExists = await User.findOne({ email: req.body.email });
   if (userExists) {
     res.status(400);
     throw new Error("User already exists");
@@ -343,7 +343,7 @@ const registerUser = asyncHandler(async (req, res) => {
       httpOnly: true,
       expires: new Date(Date.now() + 1000 * 86400),
       secure: process.env.NODE_ENV === "production", // Only set secure in production
-      sameSite: 'None'
+      sameSite: 'none'
     });
 
     // Send user data
@@ -388,7 +388,8 @@ const LoginUser = asyncHandler(async (req, res) => {
       httpOnly: true,
       expires: new Date(Date.now() + 1000 * 86400),
       secure: process.env.NODE_ENV === "production", // Only set secure in production
-      sameSite: 'None'
+   //  secure:true,
+     sameSite: 'none'
     });
 
     res.status(201).json(newUser);
@@ -405,8 +406,8 @@ const logOutUser = asyncHandler(async (req, res) => {
     path: "/",
     httpOnly: true,
     expires: new Date(0),
-    secure: process.env.NODE_ENV === "production", // Only set secure in production
-    sameSite: 'None'
+secure: process.env.NODE_ENV === "production", // Only set secure in production
+   sameSite: 'none'
   });
   res.status(200).json({ message: "Successfully logged out" });
 });
@@ -431,6 +432,7 @@ const getLoginStatus = asyncHandler(async (req, res) => {
   // Verify the token
   try {
     const verified = jwt.verify(token, process.env.JWT_SECRET);
+    
     res.json(true);
   } catch (err) {
     res.status(401).json(false);
