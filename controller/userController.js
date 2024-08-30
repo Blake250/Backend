@@ -128,7 +128,8 @@ const logOutUser = asyncHandler(async (req, res) => {
     path: "/",
     httpOnly: true,
     expires: new Date(0),
-secure: process.env.NODE_ENV === "production", // Only set secure in production
+//secure: process.env.NODE_ENV === "production", // Only set secure in production
+secure:true,
    sameSite: 'none',
    domain: 'https://shopito-app-zs1v.onrender.com'
 //    sameSite: 'None''
