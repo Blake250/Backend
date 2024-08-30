@@ -11,18 +11,7 @@
         "src": "/api/(.*)",
         "dest": "/"
       }
-    ],
-    "env": {
-      "MONGODB_URL": "@mongodb_url",
-      "JWT_SECRET": "@jwt_secret",
-      "STRIPE_SECRET_KEY": "@stripe_secret_key",
-      "FRONTEND_URL": "@frontend_url",
-      "BACKEND_URL": "@backend_url",
-      "EMAIL_HOST": "@email_host",
-      "EMAIL_USER": "@email_user",
-      "EMAIL_PASS": "@email_pass",
-      "FLW_SECRET_KEY": "@flw_secret_key",
-      "STRIPE_ENDPOINT_SECRET": "@stripe_endpoint_secret"
-    }
+    ]
+    
   }
   
