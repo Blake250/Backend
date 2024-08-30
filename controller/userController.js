@@ -60,9 +60,9 @@ const registerUser = asyncHandler(async (req, res) => {
       path: "/",
       httpOnly: true,
       expires: new Date(Date.now() + 1000 * 86400),
-      secure: process.env.NODE_ENV === "production", // Only set secure in production
-      //  secure:true,
-        sameSite: 'None',
+    //  secure: process.env.NODE_ENV === "production", // Only set secure in production
+        secure:true,
+        sameSite: 'none',
           domain: 'https://shopito-app-zs1v.onrender.com'
      
     });
@@ -108,8 +108,8 @@ const LoginUser = asyncHandler(async (req, res) => {
       path: "/",
       httpOnly: true,
       expires: new Date(Date.now() + 1000 * 86400),
-      secure: process.env.NODE_ENV === "production", // Only set secure in production
-   //  secure:true,
+     // secure: process.env.NODE_ENV === "production", // Only set secure in production
+     secure:true,
      sameSite: 'none',
        domain: 'https://shopito-app-zs1v.onrender.com'
     });
