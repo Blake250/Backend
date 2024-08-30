@@ -61,7 +61,10 @@ const registerUser = asyncHandler(async (req, res) => {
       httpOnly: true,
       expires: new Date(Date.now() + 1000 * 86400),
       secure: process.env.NODE_ENV === "production", // Only set secure in production
-      sameSite: 'None'
+      //  secure:true,
+        sameSite: 'None',
+          domain: 'https://shopito-app-zs1v.onrender.com'
+     
     });
 
     // Send user data
@@ -107,7 +110,8 @@ const LoginUser = asyncHandler(async (req, res) => {
       expires: new Date(Date.now() + 1000 * 86400),
       secure: process.env.NODE_ENV === "production", // Only set secure in production
    //  secure:true,
-     sameSite: 'None'
+     sameSite: 'none',
+       domain: 'https://shopito-app-zs1v.onrender.com'
     });
 
     res.status(201).json(newUser);
@@ -125,7 +129,9 @@ const logOutUser = asyncHandler(async (req, res) => {
     httpOnly: true,
     expires: new Date(0),
 secure: process.env.NODE_ENV === "production", // Only set secure in production
-   sameSite: 'None'
+   sameSite: 'none',
+   domain: 'https://shopito-app-zs1v.onrender.com'
+//    sameSite: 'None''
   });
   res.status(200).json({ message: "Successfully logged out" });
 });
