@@ -29,6 +29,8 @@ const {protect} = require("../middleware/authMiddleWare")
 // router.patch("/saveCart", protect, saveCart)
 
 
+
+
 router.post("/register", registerUser);
 router.post("/login", LoginUser);
 router.get("/logOut", logOutUser);

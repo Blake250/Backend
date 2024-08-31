@@ -33,7 +33,7 @@ const registerUser = asyncHandler(async (req, res) => {
   }
 
   // Check if user already exists
-  const userExists = await User.findOne({ email: req.body.email });
+  const userExists = await User.findOne({ email: req.user.email });
   if (userExists) {
     res.status(400);
     throw new Error("User already exists");
@@ -95,7 +95,7 @@ const LoginUser = asyncHandler(async (req, res) => {
   }
 
   // Check if password is correct
-  const passwordIsCorrect = await bcrypt.compare(password, user.password);
+  const passwordIsCorrect =  bcrypt.compare(password, user.password);
 
   // Generate a token for the user
   const token = generateToken(user._id);
