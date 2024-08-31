@@ -30,10 +30,10 @@ const corsOptions = {
   origin: function (origin, callback) {
     const allowedOrigins = [
     
-      "https://shopito-app-zs1v.onrender.com/",
+      "https://shopito-app-zs1v.onrender.com",
     'https://api-shopito-app.onrender.com'
    
-
+  
       
       
 
