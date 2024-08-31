@@ -95,7 +95,7 @@ const LoginUser = asyncHandler(async (req, res) => {
   }
 
   // Check if password is correct
-  const passwordIsCorrect =  bcrypt.compare(password, user.password);
+  const passwordIsCorrect = await bcrypt.compare(password, user.password);
 
   // Generate a token for the user
   const token = generateToken(user._id);
