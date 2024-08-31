@@ -33,7 +33,7 @@ const registerUser = asyncHandler(async (req, res) => {
   }
 
   // Check if user already exists
-  const userExists = await User.findOne({ email: req.user.email });
+  const userExists = await User.findOne({ email: req.body.email });
   if (userExists) {
     res.status(400);
     throw new Error("User already exists");
@@ -88,7 +88,7 @@ const LoginUser = asyncHandler(async (req, res) => {
   }
 
   // Check if user already exists
-  const user = await User.findOne({ email: email });
+  const user = await User.findOne({ email: email});
   if (!user) {
     res.status(400);
     throw new Error("User does not exist");
