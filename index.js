@@ -31,7 +31,9 @@ const corsOptions = {
     const allowedOrigins = [
     
       "https://shopito-app-zs1v.onrender.com/",
-    'https://api-shopito-app.onrender.com/'
+    'https://api-shopito-app.onrender.com/',
+    'http://localhost:3000/',
+    'http://localhost:8000/'
    
   
       
@@ -47,7 +49,7 @@ const corsOptions = {
     }
   },
    credentials: true,
-  allowedHeaders: ["Content-Type", "cookie", "Authorization", 'X-Requested-With', 'Accept',  ],
+  allowedHeaders: ["Content-Type", "Authorization", 'X-Requested-With', 'Accept',  ],
   allowedMethods: ['GET', 'POST', 'PATCH', 'DELETE',  'OPTIONS', 'PUT']
 };
 
