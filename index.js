@@ -32,8 +32,8 @@ const corsOptions = {
     
       "https://shopito-app-zs1v.onrender.com/",
     'https://api-shopito-app.onrender.com/',
-    'http://localhost:3000/',
-    'http://localhost:8000/'
+    // 'http://localhost:3000/',
+    // 'http://localhost:8000/'
    
   
       
