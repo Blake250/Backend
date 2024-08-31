@@ -63,7 +63,7 @@ const registerUser = asyncHandler(async (req, res) => {
     //  secure: process.env.NODE_ENV === "production", // Only set secure in production
         secure:true,
         sameSite: 'none',
-       //   domain: 'https://api-shopito-app.vercel.app'
+   
      
     });
 
@@ -111,7 +111,7 @@ const LoginUser = asyncHandler(async (req, res) => {
      // secure: process.env.NODE_ENV === "production", // Only set secure in production
      secure:true,
      sameSite: 'none',
-     //  domain: 'https://api-shopito-app.vercel.app'
+    
     });
 
     res.status(201).json(newUser);
@@ -131,8 +131,8 @@ const logOutUser = asyncHandler(async (req, res) => {
 //secure: process.env.NODE_ENV === "production", // Only set secure in production
 secure:true,
    sameSite: 'none',
-  //domain: 'https://api-shopito-app.vercel.app'
-//    sameSite: 'None''
+  
+
   });
   res.status(200).json({ message: "Successfully logged out" });
 });
