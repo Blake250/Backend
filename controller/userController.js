@@ -63,7 +63,7 @@ const registerUser = asyncHandler(async (req, res) => {
     //  secure: process.env.NODE_ENV === "production", // Only set secure in production
         secure:true,
         sameSite: 'none',
-          domain: 'https://api-shopito-app.vercel.app'
+       //   domain: 'https://api-shopito-app.vercel.app'
      
     });
 
