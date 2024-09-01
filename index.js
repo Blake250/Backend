@@ -21,7 +21,7 @@ dotenv.config();
 const app = express();
 
 
-
+app.use(express.static(path.join(__dirname, 'frontend_ecommerce/build' )))
 
 
 
@@ -104,10 +104,14 @@ app.use("/api/order", orderRoute);
 //app.use("/api/transaction", transactionRoute);
 
 
-// The "catchall" handler: for any request that doesn't match any of the above, send back React's index.html file.
-// app.get('*', (req, res) => {
-//   res.sendFile(path.join(__dirname, 'client/build/index.html'));
-// });
+
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, 'frontend_ecommerce/build', 'index.html'));
+});
+
+
+
+
 
 app.use(errorHandler);
 
