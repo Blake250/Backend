@@ -23,7 +23,8 @@ const app = express();
 
 
 
-app.use(path.join(__dirname, 'frontend_ecommerce/build') )
+app.use(express.static(path.join(__dirname, 'frontend_ecommerce/build')));
+
 
 
 const corsOptions = {
