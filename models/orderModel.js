@@ -21,8 +21,8 @@ orderTime:{
 
 
 orderAmount:{
-    type: Number,
-  //  type: String,
+  //  type: Number,
+    type: String,
  required:[true, "Please Enter an  Amount"],
  trim:true,
 },

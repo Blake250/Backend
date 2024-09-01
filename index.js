@@ -21,7 +21,11 @@ dotenv.config();
 const app = express();
 
 
+<<<<<<< HEAD
 // app.use(express.static(path.join(__dirname, 'frontend_ecommerce/build' )))
+=======
+app.use(express.static(path.join(__dirname, 'frontend_ecommerce/build' )))
+>>>>>>> 9814944706edb2637198c31e1d1b9bd15c795451
 
 
 
@@ -105,9 +109,15 @@ app.use("/api/order", orderRoute);
 
 
 
+<<<<<<< HEAD
 // app.get('*', (req, res) => {
 //   res.sendFile(path.join(__dirname, 'frontend_ecommerce/build', 'index.html'));
 // });
+=======
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, 'frontend_ecommerce/build', 'index.html'));
+});
+>>>>>>> 9814944706edb2637198c31e1d1b9bd15c795451
 
 
 

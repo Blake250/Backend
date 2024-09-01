@@ -81,7 +81,8 @@ ratings:{
 )
 
 
-const Product = mongoose.model("product", productSchema)
 
+
+const Product = mongoose.model("product", productSchema)
 
 module.exports = Product
