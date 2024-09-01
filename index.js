@@ -7,7 +7,7 @@ const cors = require("cors");
 const mongoose = require("mongoose");
 const cookieParser = require("cookie-parser");
 const dotenv = require("dotenv");
-//const path = require("path");
+const path = require("path");
 const errorHandler = require("./middleware/errorMiddleWare.js");
 const userRouter = require("./routes/userRoute.js");
 const productRoute = require("./routes/productRoute.js");
@@ -21,13 +21,9 @@ dotenv.config();
 const app = express();
 
 
-<<<<<<< HEAD
-app.use(express.static(path.join(__dirname, 'frontend_ecommerce/build' )))
-=======
-
->>>>>>> c2560b70a84249e7a56da3ee8b49ca8834d33cda
 
 
+app.use(path.join(__dirname, 'frontend_ecommerce/build') )
 
 
 const corsOptions = {
@@ -109,12 +105,9 @@ app.use("/api/order", orderRoute);
 
 
 
-<<<<<<< HEAD
 app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, 'frontend_ecommerce/build', 'index.html'));
 });
-=======
->>>>>>> c2560b70a84249e7a56da3ee8b49ca8834d33cda
 
 
 
