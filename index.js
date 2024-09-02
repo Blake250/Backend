@@ -16,14 +16,11 @@ const brandRoute = require("./routes/brandRoutes.js");
 const couponRoute = require("./routes/couponRoute.js");
 const orderRoute = require("./routes/orderRoute.js");
 const transactionRoute = require("./routes/transactionRoute.js");
-//const bodyParser = require('body-parser')
+const serveStatic = require("serve-static")
+
 dotenv.config();
 const app = express();
 
-
-
-
-app.use(express.static(path.join(__dirname, 'frontend_ecommerce/build')));
 
 
 
@@ -31,14 +28,11 @@ const corsOptions = {
   origin: function (origin, callback) {
     const allowedOrigins = [
     
-      "https://shopito-app-zs1v.onrender.com",
-    'https://api-shopito-app.onrender.com',
+    //   "https://shopito-app-zs1v.onrender.com",
+    // 'https://api-shopito-app.onrender.com',
     'http://localhost:3000',
     'http://localhost:8000'
-   
   
-      
-      
 
     ];
     
@@ -73,21 +67,16 @@ const corsOptions = {
 //   allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With', 'device-remember-token', 'Access-Control-Allow-Origin', 'Origin', 'Accept']
 // };
 
-app.use(cors(corsOptions));
-
-
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 
+app.use(cors(corsOptions));
 
 
 
 
-
-//app.use(cors(corsOptions));
 mongoose.connect(process.env.MONGODB_URL, {
-  // useNewUrlParser: true,
-  // useUnifiedTopology: true
+
 }).then(() => console.log('Connected to the database!'))
   .catch(err => console.error('Connection error:', err));
 
@@ -96,19 +85,32 @@ mongoose.connect(process.env.MONGODB_URL, {
 app.use(express.json());
 
 
+app.use(express.static(path.join(__dirname, '../frontend_ecommerce/build')));
+
+
+//app.use("/", serveStatic(path.join(__dirname,  '../frontend_ecommerce/build')));
+
 app.use("/api/user", userRouter);
 app.use("/api/products", productRoute);
 app.use("/api/category", categoryRoute);
 app.use("/api/brand", brandRoute);
 app.use("/api/coupon", couponRoute);
 app.use("/api/order", orderRoute);
-//app.use("/api/transaction", transactionRoute);
 
 
 
 app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, 'frontend_ecommerce/build', 'index.html'));
+ // res.sendFile(path.join(__dirname,'frontend_ecommerce', 'build', 'index.html' ));
+ res.sendFile(path.join(__dirname, '..','frontend_ecommerce', 'build', 'index.html')
+)
 });
+
+
+// app.get('*', (req, res) =>
+//   res.sendFile(
+//     path.resolve(__dirname, '..', 'frontend_ecommerce', 'build', 'index.html')
+//   )
+// );
 
 
 
