@@ -22,7 +22,8 @@ const corsOptions = {
       // 'http://localhost:3000',
       // 'http://localhost:8000',
 
-      "https://shopito-app-zs1v.onrender.com",
+       "https://shopito-app-zs1v.onrender.com",
+     "https://api-shopito-app.onrender.com",
       
     ];
 
@@ -51,7 +52,7 @@ mongoose.connect(process.env.MONGODB_URL)
 
  
  //Serve static files from the React frontend app
- const buildPath = path.join(__dirname, '..', 'frontend_ecommerce', 'build');
+ const buildPath = path.join(__dirname, '/frontend_ecommerce', 'build');
 
 
 // API Routes
@@ -71,7 +72,7 @@ app.use("/api/order", orderRoute);
 
 
  if(process.env.NODE_ENV === "production"  ){
- console.log('Serving static files from:', path.join(__dirname, '..', 'frontend_ecommerce', 'build'));
+// console.log('Serving static files from:', path.join(__dirname, '..', 'frontend_ecommerce', 'build'));
  app.use(express.static(buildPath));
  
  }else{
