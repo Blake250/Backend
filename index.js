@@ -52,7 +52,7 @@ mongoose.connect(process.env.MONGODB_URL)
 
  
  //Serve static files from the React frontend app
- const buildPath = path.join(__dirname, '/frontend_ecommerce', 'build');
+ //const buildPath = path.join(__dirname, '/frontend_ecommerce', 'build');
 
 
 // API Routes
@@ -71,16 +71,25 @@ app.use("/api/order", orderRoute);
 
 
 
- if(process.env.NODE_ENV === "production"  ){
-// console.log('Serving static files from:', path.join(__dirname, '..', 'frontend_ecommerce', 'build'));
- app.use(express.static(buildPath));
+//  if(process.env.NODE_ENV === "production"  ){
+// // console.log('Serving static files from:', path.join(__dirname, '..', 'frontend_ecommerce', 'build'));
+//  app.use(express.static(buildPath));
  
- }else{
-   app.get('*', (req, res) => {
-     res.sendFile(path.join(buildPath, 'index.html'));
-   });
+//  }else{
+//    app.get('*', (req, res) => {
+//      res.sendFile(path.join(buildPath, 'index.html'));
+//    });
    
- }
+//  }
+
+const __dirname1 = path.resolve()
+if(process.env.NODE_ENV=== 'production'){
+ app.use(express.static(path.join(__dirname1, "/frontend_ecommerce/build" ) ) )
+}else{
+  app.get('*', (req, res) => {
+         res.sendFile(path.join(__dirname1, 'index.html'));
+       });
+}
  
  
  
