@@ -61,8 +61,8 @@ const registerUser = asyncHandler(async (req, res) => {
       httpOnly: true,
       expires: new Date(Date.now() + 1000 * 86400),
     //  secure: process.env.NODE_ENV === "production", // Only set secure in production
-        // secure:true,
-        // sameSite: 'none',
+        secure:true,
+        sameSite: 'none',
    
      
     });
@@ -109,8 +109,8 @@ const LoginUser = asyncHandler(async (req, res) => {
       httpOnly: true,
       expires: new Date(Date.now() + 1000 * 86400),
      // secure: process.env.NODE_ENV === "production", // Only set secure in production
-    //  secure:true,
-    //  sameSite: 'none',
+     secure:true,
+     sameSite: 'none',
     
     });
 
@@ -129,8 +129,8 @@ const logOutUser = asyncHandler(async (req, res) => {
     httpOnly: true,
     expires: new Date(0),
 //secure: process.env.NODE_ENV === "production", // Only set secure in production
-// secure:true,
-//    sameSite: 'none',
+secure:true,
+   sameSite: 'none',
   
 
   });
