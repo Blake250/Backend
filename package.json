@@ -6,7 +6,8 @@
   "scripts": {
    "start": "node index.js",
     "backend": "nodemon index.js",
-    "build": "npm install  && npm install  --prefix frontend_ecommerce && npm run build --prefix frontend_ecommerce"
+    
+     "build": "npm install && npm install --prefix ../frontend_ecommerce && npm run build --prefix ../frontend_ecommerce"
   
   },
   "keywords": [],
