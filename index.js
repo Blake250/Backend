@@ -52,7 +52,7 @@ mongoose.connect(process.env.MONGODB_URL)
 
  
  //Serve static files from the React frontend app
- const buildPath = path.join(__dirname, '/frontend_ecommerce', 'build');
+ const buildPath = path.join(__dirname, '..', '/frontend_ecommerce', 'build');
 //  const buildPath = path.join(__dirname, '/frontend_ecommerce', 'build');
  console.log("Serving static files from:", buildPath);
  
@@ -88,16 +88,6 @@ if (process.env.NODE_ENV === "production") {
 
 
 
-// const __dirname1 = path.resolve()
-// if(process.env.NODE_ENV=== 'production'){
-//  app.use(express.static(path.join(__dirname1, "/frontend_ecommerce/build" ) ) )
-// }else{
-//   app.get('*', (req, res) => {
-//          res.send(path.join(`API is running well...`));
-//        });
-// }
- 
- 
  
 
 
