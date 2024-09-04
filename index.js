@@ -19,11 +19,11 @@ const app = express();
 const corsOptions = {
   origin: function (origin, callback) {
     const allowedOrigins = [
-      // 'http://localhost:3000',
-      // 'http://localhost:8000',
+      'http://localhost:3000',
+      'http://localhost:8000',
 
-       "https://shopito-app-zs1v.onrender.com",
-     "https://api-shopito-app.onrender.com",
+    //    "https://shopito-app-zs1v.onrender.com",
+    //  "https://api-shopito-app.onrender.com",
       
     ];
 
@@ -53,7 +53,9 @@ mongoose.connect(process.env.MONGODB_URL)
  
  //Serve static files from the React frontend app
  const buildPath = path.join(__dirname, '/frontend_ecommerce', 'build');
-
+//  const buildPath = path.join(__dirname, '/frontend_ecommerce', 'build');
+ console.log("Serving static files from:", buildPath);
+ 
 
 // API Routes
 app.use("/api/transaction", transactionRoute);
@@ -69,18 +71,20 @@ app.use("/api/order", orderRoute);
 
 
 
+if (process.env.NODE_ENV === "production") {
+  app.use(express.static(buildPath));
+  app.get('*', (req, res) => {
+      res.sendFile(path.join(buildPath, 'index.html'));
+  });
+} else {
+  app.get('*', (req, res) => {
+      res.send("API is running...");
+  });
+}
 
 
- if(process.env.NODE_ENV === "production"  ){
-// console.log('Serving static files from:', path.join(__dirname, '..', 'frontend_ecommerce', 'build'));
- app.use(express.static(buildPath));
- 
- }else{
-   app.get('*', (req, res) => {
-     res.sendFile(path.join(buildPath, 'index.html'));
-   });
-   
- }
+
+
 
 
 
