@@ -19,11 +19,11 @@ const app = express();
 const corsOptions = {
   origin: function (origin, callback) {
     const allowedOrigins = [
-      'http://localhost:3000',
-      'http://localhost:8000',
+      // 'http://localhost:3000',
+      // 'http://localhost:8000',
 
-    //    "https://shopito-app-zs1v.onrender.com",
-    //  "https://api-shopito-app.onrender.com",
+       "https://shopito-app-zs1v.onrender.com",
+     //"https://api-shopito-app.onrender.com",
       
     ];
 
