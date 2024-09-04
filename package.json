@@ -6,8 +6,8 @@
   "scripts": {
     "start": " node index.js",
  
-  "backend": "nodemon index.js",
-   "build": "cd ../frontend_ecommerce && npm install && npm run build && cd ../backend && npm install"
+  "backend": "nodemon index.js"
+   
 
   
   },
