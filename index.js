@@ -68,9 +68,9 @@ app.use("/api/order", orderRoute);
 
 
 
-
-
-
+app.get("/",(req, res )=>{
+  res.send("API is running...");
+})
 // if (process.env.NODE_ENV === "production") {
 //   app.use(express.static(buildPath));
 //   app.get('*', (req, res) => {
