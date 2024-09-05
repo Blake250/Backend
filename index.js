@@ -19,11 +19,11 @@ const app = express();
 const corsOptions = {
   origin: function (origin, callback) {
     const allowedOrigins = [
-      // 'http://localhost:3000',
-      // 'http://localhost:8000',
+      'http://localhost:3000',
+      'http://localhost:8000',
 
-      "https://shopito-app-one.vercel.app",
-  //    "https://api-shopito-app.onrender.com",
+  //     "https://shopito-app-one.vercel.app",
+  // //    "https://api-shopito-app.onrender.com",
       
     ];
 
@@ -70,9 +70,14 @@ app.use("/api/order", orderRoute);
 
 
 
-app.get("/",(req, res )=>{
+
+
+
+app.get("/api/*",(req, res )=>{
   res.send("API is running...");
-})
+
+
+ })
 // if (process.env.NODE_ENV === "production") {
 //   app.use(express.static(buildPath));
 //   app.get('*', (req, res) => {
