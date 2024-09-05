@@ -23,7 +23,7 @@ const corsOptions = {
       // 'http://localhost:8000',
 
       "https://shopito-app-one.vercel.app",
-      "https://api-shopito-app.onrender.com",
+  //    "https://api-shopito-app.onrender.com",
       
     ];
 
