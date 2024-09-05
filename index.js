@@ -53,10 +53,10 @@ mongoose.connect(process.env.MONGODB_URL)
   app.use("/api/transaction", transactionRoute);
   app.use(express.json());
  
- //Serve static files from the React frontend app
- const buildPath = path.join(__dirname, './frontend_ecommerce/build', );
-//  const buildPath = path.join(__dirname, '/frontend_ecommerce', 'build');
- console.log("Serving static files from:", buildPath);
+//  //Serve static files from the React frontend app
+//  const buildPath = path.join(__dirname, './frontend_ecommerce/build', );
+// //  const buildPath = path.join(__dirname, '/frontend_ecommerce', 'build');
+//  console.log("Serving static files from:", buildPath);
  
 
 // API Routes
