@@ -23,7 +23,7 @@ const corsOptions = {
       // 'http://localhost:8000',
 
       "https://shopito-app-one.vercel.app",
-      //"https://api-shopito-app.onrender.com",
+      "https://api-shopito-app.onrender.com",
       
     ];
 
@@ -42,7 +42,7 @@ const corsOptions = {
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use(cors(corsOptions));
-app.use(express.json());
+
 
 mongoose.connect(process.env.MONGODB_URL)
   .then(() => console.log('Connected to the database!'))
@@ -50,6 +50,8 @@ mongoose.connect(process.env.MONGODB_URL)
 
 
 
+  app.use("/api/transaction", transactionRoute);
+  app.use(express.json());
  
 //  //Serve static files from the React frontend app
 //  const buildPath = path.join(__dirname, './frontend_ecommerce/build', );
@@ -58,7 +60,7 @@ mongoose.connect(process.env.MONGODB_URL)
  
 
 // API Routes
-app.use("/api/transaction", transactionRoute);
+
 app.use("/api/user", userRouter);
 app.use("/api/products", productRoute);
 app.use("/api/category", categoryRoute);
