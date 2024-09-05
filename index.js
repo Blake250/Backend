@@ -73,22 +73,22 @@ app.use("/api/order", orderRoute);
 
 
 
-// app.get("/api/*",(req, res )=>{
-//   res.send("API is running...");
+app.get("/api/*",(req, res )=>{
+  res.send("API is running...");
 
 
-//  })
+ })
 
-if (process.env.NODE_ENV === "production") {
-  app.use(express.static(buildPath));
-  app.get('*', (req, res) => {
-      res.sendFile(path.join(buildPath, 'index.html'));
-  });
-} else {
-  app.get('*', (req, res) => {
-      res.send("API is running...");
-  });
-}
+// if (process.env.NODE_ENV === "production") {
+//   app.use(express.static(buildPath));
+//   app.get('*', (req, res) => {
+//       res.sendFile(path.join(buildPath, 'index.html'));
+//   });
+// } else {
+//   app.get('*', (req, res) => {
+//       res.send("API is running...");
+//   });
+// }
 
 
 
