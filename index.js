@@ -19,11 +19,11 @@ const app = express();
 const corsOptions = {
   origin: function (origin, callback) {
     const allowedOrigins = [
-      'http://localhost:3000',
-      'http://localhost:8000',
+      // 'http://localhost:3000',
+      // 'http://localhost:8000',
 
-  //     "https://shopito-app-one.vercel.app",
-  // //    "https://api-shopito-app.onrender.com",
+      "https://shopito-app-one.vercel.app",
+       "https://api-shopito-app.onrender.com",
       
     ];
 
@@ -53,10 +53,10 @@ mongoose.connect(process.env.MONGODB_URL)
   app.use("/api/transaction", transactionRoute);
   app.use(express.json());
  
-//  //Serve static files from the React frontend app
-//  const buildPath = path.join(__dirname, './frontend_ecommerce/build', );
-// //  const buildPath = path.join(__dirname, '/frontend_ecommerce', 'build');
-//  console.log("Serving static files from:", buildPath);
+ //Serve static files from the React frontend app
+ const buildPath = path.join(__dirname, './frontend_ecommerce/build', );
+//  const buildPath = path.join(__dirname, '/frontend_ecommerce', 'build');
+ console.log("Serving static files from:", buildPath);
  
 
 // API Routes
@@ -73,21 +73,22 @@ app.use("/api/order", orderRoute);
 
 
 
-app.get("/api/*",(req, res )=>{
-  res.send("API is running...");
+// app.get("/api/*",(req, res )=>{
+//   res.send("API is running...");
 
 
- })
-// if (process.env.NODE_ENV === "production") {
-//   app.use(express.static(buildPath));
-//   app.get('*', (req, res) => {
-//       res.sendFile(path.join(buildPath, 'index.html'));
-//   });
-// } else {
-//   app.get('*', (req, res) => {
-//       res.send("API is running...");
-//   });
-// }
+//  })
+
+if (process.env.NODE_ENV === "production") {
+  app.use(express.static(buildPath));
+  app.get('*', (req, res) => {
+      res.sendFile(path.join(buildPath, 'index.html'));
+  });
+} else {
+  app.get('*', (req, res) => {
+      res.send("API is running...");
+  });
+}
 
 
 
