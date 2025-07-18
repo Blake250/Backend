@@ -17,8 +17,7 @@ dotenv.config();
 const app = express();
 
 
-  app.use("/api/transaction", transactionRoute);
-  app.use(express.json());
+ 
 
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
@@ -56,7 +55,8 @@ mongoose.connect(process.env.MONGODB_URL)
 
 
 
-
+ app.use("/api/transaction", transactionRoute);
+  app.use(express.json());
  
 //  //Serve static files from the React frontend app
 //  const buildPath = path.join(__dirname, './frontend_ecommerce/build', );
